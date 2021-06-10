@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from './logo.svg';
 import './App.css';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -9,39 +9,56 @@ import SearchInput from "./Components/SearchInput";
 import UploadForm from "./Components/UploadForm";
 
 import uploadService from "./Services/uploadService"
-// TODO: Modal for input (file rename) OPTIONAL
+// TODO: Modal for input (file edit/rename) OPTIONAL
 // TODO: confirm modal (file delete) OPTIONAL
 // TODO: Error component OPTIONAL
 
 function App() {
-  const [files, setFiles] = React.useState([]);
-  const [showUploadSuccess, setShowUploadSuccess] = React.useState(false);
-
-  // TODO: catch statements, error handling
+  const [files, setFiles] = useState([]);
+  const [showUploadSuccess, setShowUploadSuccess] = useState(false);
+  const [searchStr, setSearchStr] = useState("");
 
   React.useEffect(() => {
     fetch("/api/documents")
       .then((res) => res.json())
-      .then((filesList) => {setFiles(filesList)});
+      .then((filesList) => {setFiles(filesList)})
+      .catch((err) => {
+        console.error(err);
+        setFiles([]);
+      });
   }, []);
 
+  const renderListingsWithFilter = (filesArr, filterStr) => {
+    if(!filesArr.length) {
+      return (
+        <p>No Files Found.</p>
+      );
+    }
+
+    const out = filesArr.filter(fileName => fileName.includes(filterStr));
+    if(!out.length) {
+      return (
+        <p>No Files Found.</p>
+      );
+    }
+
+    return out.map((file, key) => {
+      return (<DocumentListing key={key} fileName={file} />)
+    });
+  };
 
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
       </header>
-      <SearchInput />
+      <SearchInput onChange={(e) => {
+        setSearchStr(e.target.value)
+      }}/>
         <UploadForm onClick={(e) => uploadService(e, (res) => {
           res.status === 200 && setShowUploadSuccess(true);
         })}/>
-        {/* TODO: apply filters, abstract this listing logic*/}
-        {(
-          files.length ? 
-            files.map((file, key) => {
-              return (<DocumentListing key={key} fileName={file} />)
-            }) : <p>No Files Found.</p>
-        )}
+        {renderListingsWithFilter(files, searchStr)}
       <Dialog onClose={() => setShowUploadSuccess(false)} open={showUploadSuccess}>
         <DialogTitle>File Uploaded successfully</DialogTitle>
       </Dialog>
