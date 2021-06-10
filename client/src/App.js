@@ -82,7 +82,7 @@ function App() {
           <div className="upload-container">
             <UploadForm
               onClick={(e) => uploadService(e, (res) => {
-                if (res.status <= 300) {
+                if (res.status < 300) {
                   resetForm();
                   setShowUploadSuccess(true);
                   fetchFileList();
