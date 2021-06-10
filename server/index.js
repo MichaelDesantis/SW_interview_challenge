@@ -1,13 +1,12 @@
 const fs = require("fs");
 const path = require("path");
 const express = require("express");
-const bodyParser = require('body-parser')
+const fileUpload = require("express-fileupload");
 
 const PORT = process.env.PORT || 3001;
 
 const app = express();
-app.use(bodyParser.json()) // for parsing application/json
-app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+app.use(fileUpload());
 
 app.get("/api/documents", (req, res, next) => {
 
@@ -26,7 +25,9 @@ app.get("/api/documents", (req, res, next) => {
 
 app.post("/api/upload", (req, res) => {
   // TODO: validate file type, check size limits, write file to 'saved_files'
-  res.status(200).send("File Received");
+  // TODO: Create dir 'saved_files' if not exists.
+  // TODO: req.files is undefined, mess with this later. This is a front end challenge and the API is optional.
+  res.status(201).send("File Received");
 });
 
 // API ROUTES NEEDED

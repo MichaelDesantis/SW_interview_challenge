@@ -35,7 +35,7 @@ function App() {
       );
     }
 
-    const out = filesArr.filter(fileName => fileName.includes(filterStr));
+    const out = filesArr.filter(fileName => fileName.includes(filterStr.toLowerCase()));
     if(!out.length) {
       return (
         <p>No Files Found.</p>
@@ -56,7 +56,7 @@ function App() {
         setSearchStr(e.target.value)
       }}/>
         <UploadForm onClick={(e) => uploadService(e, (res) => {
-          res.status === 200 && setShowUploadSuccess(true);
+          res.status <= 300 && setShowUploadSuccess(true);
         })}/>
         {renderListingsWithFilter(files, searchStr)}
       <Dialog onClose={() => setShowUploadSuccess(false)} open={showUploadSuccess}>

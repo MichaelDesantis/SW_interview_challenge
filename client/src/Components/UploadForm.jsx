@@ -9,7 +9,7 @@ export default function UploadForm ({
   const [fileSelected, setFileSelected] = useState(false);
 
   return(
-    <form>
+    <form id="file_upload_form" encType="multipart/form-data" method="post" action="/api/upload">
       <input type="file" id="file_upload" name="file_upload" onChange={(e) => {
         !!e.target.value ?
           setFileSelected(true) :
