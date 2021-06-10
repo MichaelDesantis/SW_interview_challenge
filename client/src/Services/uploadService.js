@@ -29,7 +29,6 @@ export default function uploadService (e, callback){
     body: formData
   })
     .then((res) => {
-      console.log(res);
       if(callback){
         callback(res);
       }

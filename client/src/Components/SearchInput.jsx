@@ -5,6 +5,6 @@ export default function SearchInput({
   onChange
 }){
   return(
-    <TextField id="file-search-input" label="Search" variant="outlined" onChange={onChange}/>
+    <TextField id="file-search-input" label="Search Documents" variant="outlined" onChange={onChange}/>
   );
 }

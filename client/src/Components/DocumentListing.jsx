@@ -5,6 +5,8 @@ export default function DocumentListing ({
 }){
 
   return(
-    <div className="document-container">{fileName}</div>
+    <div className="document-listing">
+      <span>{fileName}</span>
+    </div>
   );
 }

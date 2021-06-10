@@ -27,6 +27,70 @@
   color: #61dafb;
 }
 
+.content-wrapper {
+  margin: 0 auto;
+  max-width: 600px;
+}
+
+.top-row {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0 auto;
+  width: 400px;
+}
+
+form .upload_select_label {
+  align-items: center;
+  border-radius: 4px;
+  box-sizing: border-box;
+  display: flex;
+  height: 36px;
+  justify-content: center;
+  margin: 0 auto;
+  margin-bottom: 6px;
+  padding: 6px 16px;
+  width: 140px;
+}
+
+form > button {
+  height: 36px;
+  width: 140px;
+}
+
+#file_upload {
+  display: none;
+}
+
+.document-row {
+  margin-top: 30px;
+}
+
+.document-row h4 {
+  margin: 0 auto;
+  text-align: left;
+  width: 400px;
+}
+
+.file-results-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.document-listing {
+  align-items: center;
+  background: rgba(0, 0, 0, 0.12);
+  color: rgba(0, 0, 0, 0.50);
+  border-radius: 10px;
+  display: flex;
+  font-size: 22px;
+  justify-content: center;
+  height: 150px;
+  margin: 20px;
+  width: auto;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

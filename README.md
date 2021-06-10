@@ -8,8 +8,14 @@ This repo was created as a technical assessment for part of an interview for a s
 
 * [Running the application](#Running-the-application)
 
-* 3
+* [Notes](#notes)
 
 ### Application setup
 
 ### Running the application
+
+### Notes
+
+TODO:
+TypeDefs/tests
+Readme/ Docs

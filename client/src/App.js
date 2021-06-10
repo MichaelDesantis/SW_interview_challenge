@@ -46,16 +46,25 @@ function App() {
       );
     }
 
-    const out = filesArr.filter(fileName => fileName.includes(filterStr.toLowerCase()));
+    const out = filesArr.filter(fileName => fileName.toLowerCase().includes(filterStr.toLowerCase()));
     if(!out.length) {
       return (
         <p>No Files Found.</p>
       );
     }
 
-    return out.map((file, key) => {
-      return (<DocumentListing key={key} fileName={file} />)
-    });
+    const titleString = out.length > 1 ? `${out.length} Files`: `${out.length} File`;
+
+    return (
+      <>
+        <h4>{titleString}</h4>
+        <div className="file-results-grid">
+          {out.map((file, key) => {
+            return (<DocumentListing key={key} fileName={file} />)
+          })}
+        </div>
+      </>
+    );
   };
 
   return (
@@ -63,28 +72,38 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
       </header>
-      <SearchInput onChange={(e) => {
-        setSearchStr(e.target.value)
-      }}/>
-        <UploadForm
-          onClick={(e) => uploadService(e, (res) => {
-            if (res.status <= 300) {
-              resetForm();
-              setShowUploadSuccess(true);
-              fetchFileList();
-            };
-          })}
-          onSelect={(e) => {
-            !!e.target.value ?
-            setFileSelected(true) :
-            setFileSelected(false);
-          }}
-          disabled={!fileSelected}
-          />
-        {renderListingsWithFilter(files, searchStr)}
-      <Dialog onClose={() => setShowUploadSuccess(false)} open={showUploadSuccess}>
-        <DialogTitle>File Uploaded successfully</DialogTitle>
-      </Dialog>
+      <div className="content-wrapper">
+        <div className="top-row">
+          <div className="search-container">
+            <SearchInput onChange={(e) => {
+              setSearchStr(e.target.value)
+            }}/>
+          </div>
+          <div className="upload-container">
+            <UploadForm
+              onClick={(e) => uploadService(e, (res) => {
+                if (res.status <= 300) {
+                  resetForm();
+                  setShowUploadSuccess(true);
+                  fetchFileList();
+                };
+              })}
+              onSelect={(e) => {
+                !!e.target.value ?
+                setFileSelected(true) :
+                setFileSelected(false);
+              }}
+              disabled={!fileSelected}
+              />
+          </div>
+        </div>
+        <div className="document-row">
+          {renderListingsWithFilter(files, searchStr)}
+        </div>
+        <Dialog onClose={() => setShowUploadSuccess(false)} open={showUploadSuccess}>
+          <DialogTitle>File Uploaded successfully</DialogTitle>
+        </Dialog>
+      </div>
     </div>
   );
 }
