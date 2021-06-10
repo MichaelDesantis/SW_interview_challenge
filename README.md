@@ -58,4 +58,4 @@ And here are the things I still need to do:
 
 * Features. There's a lot of places I've marked `TODO:` throughout the application. These are again, things I would have liked to do if I had more time. I would like a user to have the ability to rename files, download files, delete files, and preview files.
 
-* Scalability/Robustness. Currently we're just getting ALL the documents. This would get out of hand if a user had thousands of files. So things like a limit for display (results per page, user selectable) and API fetching queries (to fetch only relevant files instead of full list) qould be nice. But it is not possible to build Google Drive in a day.
+* Scalability/Robustness. Currently we're just getting ALL the documents. This would get out of hand if a user had thousands of files. So things like a limit for display (results per page, user selectable) and API fetching queries (to fetch only relevant files instead of full list) would be nice. But it is not possible to build Google Drive in a day.
