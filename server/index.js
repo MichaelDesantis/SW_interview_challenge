@@ -24,17 +24,22 @@ app.get("/api/documents", (req, res, next) => {
 // });
 
 app.post("/api/upload", (req, res) => {
-  // TODO: validate file type, check size limits, write file to 'saved_files'
+  // TODO: validate file type, check size limits.
   // TODO: Create dir 'saved_files' if not exists.
-  // TODO: req.files is undefined, mess with this later. This is a front end challenge and the API is optional.
-  res.status(201).send("File Received");
+  const incomingFile = req.files.file_upload;
+  const uploadPath = `${__dirname}/saved_files/${incomingFile.name}`;
+  incomingFile.mv(uploadPath, (err) => {
+    if(err){
+      return res.status(500).send("Internal Server Error. File could not be saved.");
+    }
+    res.status(201).send("File Received");
+  });
+
 });
 
 // API ROUTES NEEDED
-// Upload file
 // Delete file
 // Rename file
-
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);

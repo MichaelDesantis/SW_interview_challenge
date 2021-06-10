@@ -18,14 +18,14 @@ export default function uploadService (e, callback){
   }
 
   const formData = new FormData(document.getElementById("file_upload_form"));
-  formData.append('file',file);
 
   fetch("/api/upload", {
     method: "POST",
     // TODO: allow headers as arg to upload service instead of hard-coding
-    headers: {
-      "Content-Type": "multipart/form-data"
-    },
+    // Explicitly setting Content-Type header will cause submit to fail silently and files to be 'undefined'. Known issue with fetch api and express-fileupload middleware
+    // headers: {
+    //   "Content-Type": "multipart/form-data"
+    // },
     body: formData
   })
     .then((res) => {
