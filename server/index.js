@@ -1,23 +1,22 @@
+const fs = require("fs");
+const path = require("path");
 const express = require("express");
+const bodyParser = require('body-parser')
 
 const PORT = process.env.PORT || 3001;
 
 const app = express();
+app.use(bodyParser.json()) // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
-app.get("/api", (req, res) => {
-  res.json({ message: "Hello from server!" });
-});
+app.get("/api/documents", (req, res, next) => {
 
-// TODO: get actual documents
-app.get("/api/documents", (req, res) => {
-  res.json([
-    {fileName: "first.pdf"},
-    {fileName: "second.pdf"},
-    {fileName: "third.pdf"},
-    {fileName: "fourth.pdf"},
-    {fileName: "fifth.pdf"},
-    {fileName: "sixth.pdf"}
-  ]);
+  fs.readdir(path.join(__dirname, "saved_files"), (err, fileList) => {
+    if (err) {
+      next(err);
+    }
+    res.json(fileList);
+  });
 });
 
 // TODO: get individual documents
@@ -25,8 +24,13 @@ app.get("/api/documents", (req, res) => {
 
 // });
 
+app.post("/api/upload", (req, res) => {
+  // TODO: validate file type, check size limits, write file to 'saved_files'
+  res.status(200).send("File Received");
+});
+
 // API ROUTES NEEDED
-// Upload file (documents and images)
+// Upload file
 // Delete file
 // Rename file
 

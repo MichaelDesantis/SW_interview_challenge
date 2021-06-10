@@ -1,53 +1,50 @@
 import React from "react";
 import logo from './logo.svg';
 import './App.css';
-// TODO: Modal for input (file rename)
-// TODO: confirm modal (file delete)
-// TODO: upload page /document/new ?
-// TODO: document listing component
-// TODO: Error component
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
+
+import DocumentListing from "./Components/DocumentListing";
+import SearchInput from "./Components/SearchInput";
+import UploadForm from "./Components/UploadForm";
+
+import uploadService from "./Services/uploadService"
+// TODO: Modal for input (file rename) OPTIONAL
+// TODO: confirm modal (file delete) OPTIONAL
+// TODO: Error component OPTIONAL
 
 function App() {
-  const [data, setData] = React.useState(null);
   const [files, setFiles] = React.useState([]);
+  const [showUploadSuccess, setShowUploadSuccess] = React.useState(false);
 
-  React.useEffect(() => {
-    // TODO: catch statements, Error handling
-    fetch("/api")
-      .then((res) => res.json())
-      .then((data) => setData(data.message));
-  }, []);
+  // TODO: catch statements, error handling
 
   React.useEffect(() => {
     fetch("/api/documents")
       .then((res) => res.json())
       .then((filesList) => {setFiles(filesList)});
-  }, [files]);
+  }, []);
 
 
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <p>{!data ? "Loading..." : data}</p>
+      </header>
+      <SearchInput />
+        <UploadForm onClick={(e) => uploadService(e, (res) => {
+          res.status === 200 && setShowUploadSuccess(true);
+        })}/>
+        {/* TODO: apply filters, abstract this listing logic*/}
         {(
           files.length ? 
-            files.map((file) => {
-              return (<p>{file.fileName}</p>)
-            }) : <p>loading...</p>
+            files.map((file, key) => {
+              return (<DocumentListing key={key} fileName={file} />)
+            }) : <p>No Files Found.</p>
         )}
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Dialog onClose={() => setShowUploadSuccess(false)} open={showUploadSuccess}>
+        <DialogTitle>File Uploaded successfully</DialogTitle>
+      </Dialog>
     </div>
   );
 }
